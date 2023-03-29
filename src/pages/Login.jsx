@@ -16,7 +16,14 @@ const Login = () => {
   const { currentUser, error } = useSelector((state) => state?.auth);
 
   const loginScheme = object({
-    email: string().email().required("Bu alan zorunludur"),
+    email: string().email("Yanlış email formatı girildi").required("Bu alan zorunludur"),
+    password: string().required("Password zorunludur")
+    .min(8, "Password en az 8 karakter olmalıdır")
+    .max(20, "Password en fazla 20 karakter olmalıdır")
+    .matches(/\d+/, "Password bir sayı içermelidir")               /* rakam içermelidir */
+    .matches(/[a-z]/, "Password bir küçük harf içermelidir")
+    .matches(/[A-Z]/, "Password bir büyük harf içermelidir")
+    .matches(/[!,?{}<>%&$#£+-.]+/, "Password bir özel karakter içermelidir"),
   });
 
   return (
