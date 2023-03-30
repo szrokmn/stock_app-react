@@ -9,11 +9,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import TextField from "@mui/material/TextField";
-import { object, string, number, date, InferType } from "yup";
+import { object, string } from "yup";
+import LoadingButton from '@mui/lab/LoadingButton';
+import useAuthCall, { login } from "../hooks/useAuthCall";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { currentUser, error } = useSelector((state) => state?.auth);
+  const { currentUser, error, loading } = useSelector((state) => state?.auth);
+
+  const { login } = useAuthCall()
 
   const loginScheme = object({
     email: string().email("Yanlış email formatı girildi").required("Bu alan zorunludur"),
@@ -67,6 +71,7 @@ const Login = () => {
             initialValues={{ email: "", password: "" }}
             validationSchema={loginScheme}
             onSubmit={(values, actions) => {
+              login(values)
               actions.resetForm();
               actions.setSubmitting(false);
             }}
@@ -100,6 +105,9 @@ const Login = () => {
                     helperText={touched.password && errors.password}
                     // required
                   />
+
+                  <LoadingButton variant="contained" type="submit" loading={loading}>Submit</LoadingButton>
+
                 </Box>
               </Form>
             )}
