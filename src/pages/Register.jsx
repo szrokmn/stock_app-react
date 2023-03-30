@@ -11,10 +11,12 @@ import { useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { Form, Formik } from "formik";
 import { object, string } from "yup";
+import useAuthCall from "../hooks/useAuthCall";
 
 const Register = () => {
   const navigate = useNavigate();
   const { currentUser, error } = useSelector((state) => state.auth);
+  const { register } = useAuthCall();
 
   const registerScheme = object({
     first_name: string()
@@ -87,7 +89,8 @@ const Register = () => {
             }}
             validationSchema={registerScheme}
             onSubmit={(values, actions) => {
-              // login(values)
+              register({...values, password2:values.password})
+              console.log(values)
               actions.resetForm();
               actions.setSubmitting(false);
             }}
