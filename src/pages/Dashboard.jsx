@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,10 +9,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuListItems from '../components/MenuListItems';
+import { useSelector } from 'react-redux';
+import { Button } from '@mui/material';
+import useAuthCall from '../hooks/useAuthCall';
+import { Outlet } from 'react-router-dom';
 
-const drawerWidth = 200;
+const drawerWidth = 240;
 
 function Dashboard(props) {
+
+  const { currentUser } = useSelector((state) => state.auth)
+  const { logout } = useAuthCall()
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -51,9 +57,10 @@ function Dashboard(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1}}>
+            Stock App
           </Typography>
+            {currentUser && <Button color="inherit" onClick={() => logout()}>Logout</Button>}
         </Toolbar>
       </AppBar>
       <Box
@@ -93,6 +100,9 @@ function Dashboard(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />       
+
+          <Outlet />
+
       </Box>
     </Box>
   );
