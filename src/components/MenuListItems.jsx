@@ -1,7 +1,4 @@
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -13,6 +10,7 @@ import StarsIcon from "@mui/icons-material/Stars";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import { useNavigate } from "react-router-dom";
+import { ListItem } from "@mui/material";
 
 const icons = [
   {
@@ -53,14 +51,29 @@ const icons = [
 ];
 
 const MenuListItems = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <List>
         {icons?.map((item, index) => (
-            <ListItemButton>
+          <ListItem>
+
+            {item.url.includes("https") && (
+              <ListItemButton to={item.url}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.title} />
-            </ListItemButton>
+              </ListItemButton>
+            )}
+
+            {!item.url.includes("https") && (
+              <ListItemButton onClick={() => navigate(item.url)}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            )}
+            
+          </ListItem>
         ))}
       </List>
     </div>
