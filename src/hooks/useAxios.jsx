@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 const useAxios = () => {
 
     const {token} = useSelector((state) => state.auth )
-    
+   
     const axiosWithToken = axios.create({
-        baseURL: 'https://some-domain.com/api/',       
+        baseURL: "https://12126.fullstack.clarusway.com/",       
         headers: {'Authorization': `Token ${token}`}
       });
 
