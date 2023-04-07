@@ -1,68 +1,50 @@
-import React from "react"
-import { flexColumn, modalStyle } from "../../styles/globalStyle"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import Modal from "@mui/material/Modal"
-import TextField from "@mui/material/TextField"
-import useStockCall from "../../hooks/useStockCall"
+import Card from "@mui/material/Card"
+import CardActions from "@mui/material/CardActions"
+import CardMedia from "@mui/material/CardMedia"
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import EditIcon from "@mui/icons-material/Edit"
+import { CardHeader } from "@mui/material"
+import useStockCall from "../hooks/useStockCall"
+import { btnStyle, flex } from "../styles/globalStyle"
 
-export default function BrandModal({ open, setOpen, info, setInfo }) {
-  const { postStockData, putStockData } = useStockCall()
-
-  const handleChange = (e) => {
-    e.preventDefault()
-    const { name, value } = e.target
-    setInfo({ ...info, [name]: value })
-  }
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setOpen(false)
-    if (info.id) {
-      putStockData("brands", info)
-    } else {
-      postStockData("brands", info)
-    }
-    setInfo({})
-  }
+const BrandCard = ({ brand, setOpen, setInfo }) => {
+  const { deleteStockData } = useStockCall()
 
   return (
-    <Modal
-      open={open}
-      onClose={() => {
-        setOpen(false)
-        setInfo({})
+    <Card
+      elevation={10}
+      sx={{
+        p: 2,
+        width: "300px",
+        height: "400px",
+        display: "flex",
+        flexDirection: "column",
       }}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
     >
-      <Box sx={modalStyle}>
-        <Box sx={flexColumn} component={"form"} onSubmit={handleSubmit}>
-          <TextField
-            label="Brand Name"
-            name="name"
-            id="name"
-            type="text"
-            variant="outlined"
-            value={info?.name || ""}
-            onChange={handleChange}
-            required
-          />
+      <CardHeader title={brand?.name} />
 
-          <TextField
-            label="Image Url"
-            name="image"
-            id="image"
-            type="url"
-            variant="outlined"
-            value={info?.image || ""}
-            onChange={handleChange}
-          />
+      <CardMedia
+        image={brand?.image}
+        sx={{ p: 1, objectFit: "contain", height: "250px" }}
+        component="img"
+        alt="brand-img"
+      />
 
-          <Button type="submit" variant="contained" size="large">
-            Save Brand
-          </Button>
-        </Box>
-      </Box>
-    </Modal>
+      <CardActions sx={flex}>
+        <EditIcon
+          sx={btnStyle}
+          onClick={() => {
+            setInfo(brand)
+            setOpen(true)
+          }}
+        />
+        <DeleteOutlineIcon
+          sx={btnStyle}
+          onClick={() => deleteStockData("brands", brand.id)}
+        />
+      </CardActions>
+    </Card>
   )
 }
+
+export default BrandCard
