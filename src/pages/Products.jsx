@@ -3,14 +3,14 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import useStockCall from "../hooks/useStockCall";
 import { useSelector } from "react-redux";
-import FirmCard from "../components/FirmCard";
+import ProductCard from "../components/ProductCard";
 import { flex } from "../styles/globalStyle";
 import ProductModal from "../components/modals/ProductModal";
 
 const Products = () => {
 
   const { getStockData } = useStockCall();
-  const { firms } = useSelector((state) => state.stock);
+  const { products } = useSelector((state) => state.stock);
   const [open, setOpen] = useState(false);
 
   const [info, setInfo] = useState({
@@ -45,9 +45,9 @@ const Products = () => {
       />
 
       <Grid container sx={flex}>
-        {firms?.map((firm) => (
-          <Grid item key={firm.id}>
-            <FirmCard firm={firm} setOpen={setOpen} setInfo={setInfo}/>
+        {products?.map((product) => (
+          <Grid item key={product.id}>
+            <ProductCard product={product} setOpen={setOpen} setInfo={setInfo}/>
           </Grid>
         ))}
       </Grid>
