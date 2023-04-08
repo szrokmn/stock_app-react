@@ -15,7 +15,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridToolbar } from '@mui/x-data-grid';
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
 
 const Products = () => {
@@ -113,6 +113,8 @@ const Products = () => {
 
   useEffect(() => {    
     getStockData("products");
+    getStockData("categories")
+    getStockData("brands")
   }, []);
 
   return (
@@ -145,6 +147,7 @@ const Products = () => {
         }}
         pageSizeOptions={[5]}        
         disableRowSelectionOnClick
+        slots={{ toolbar:GridToolbar }}
       />
     </Box>
 
