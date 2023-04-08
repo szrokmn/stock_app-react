@@ -41,7 +41,7 @@ export default function ProductModal({ open, handleClose, info, setInfo }) {
       >
         <Box sx={modalStyle}>
           <Box
-            sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+            sx={{ display: "flex", flexDirection: "column", gap: 2 }}yarn start
             onSubmit={handleSubmit}
             component="form"
           >
